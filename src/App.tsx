@@ -1032,7 +1032,7 @@ export default function App() {
   return (
     <ToastCtx.Provider value={addToast}>
       <div
-        className="min-h-screen flex"
+        className="min-h-screen"
         style={{ background: "var(--background)" }}
       >
         {sidebarOpen && (
@@ -1042,10 +1042,14 @@ export default function App() {
           />
         )}
         <div
-          className={`fixed lg:static inset-y-0 left-0 z-40 flex-shrink-0 transition-transform duration-200 ${
+          className={`fixed inset-y-0 left-0 z-40 flex-shrink-0 transition-transform duration-200 ${
             sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
           } ${sidebarCollapsed ? "lg:w-20" : "lg:w-64"}`}
-          style={{ height: "100vh" }}
+          style={{
+            height: "100vh",
+            width: sidebarCollapsed ? "5rem" : "16rem",
+            maxWidth: "100vw",
+          }}
         >
           <Sidebar
             view={view}
@@ -1063,7 +1067,11 @@ export default function App() {
             onLogout={handleSignOut}
           />
         </div>
-        <main className="flex-1 min-w-0 flex flex-col">
+        <main
+          className={`flex-1 min-w-0 flex flex-col transition-all duration-200 ${
+            sidebarCollapsed ? "lg:ml-20" : "lg:ml-64"
+          }`}
+        >
           <div className="flex items-center justify-between px-4 pt-4 lg:px-6 lg:pt-6">
             <div className="lg:hidden flex items-center gap-3">
               <button
@@ -1896,6 +1904,12 @@ function Sidebar({
         color: "var(--sidebar-fg)",
         height: "100vh",
         minHeight: "100vh",
+        position: "fixed",
+        top: 0,
+        left: 0,
+        bottom: 0,
+        width: collapsed ? "5rem" : "16rem",
+        overflowY: "auto",
       }}
     >
       <div className="px-3 pt-5 pb-4">
